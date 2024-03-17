@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PruebaTecnicaCompaniaRepuestos.Models
+namespace CompaniaRepuestos.Models
 {
     public class Producto //modelo para la tabla producto DB
     {

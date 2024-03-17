@@ -1,13 +1,12 @@
 ﻿using CompaniaRepuestos.Data;
 using CompaniaRepuestos.Models;
 using Microsoft.EntityFrameworkCore;
-using PruebaTecnicaCompaniaRepuestos.Models;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 
 
-namespace CitaFacil.Models
+namespace CompaniaRepuestos.Models
 {
     public class ServiciosCompaniaRepuestos
     {
@@ -53,7 +52,7 @@ namespace CitaFacil.Models
         //Si la contraseña coincide, devuelve el usuario; de lo contrario, devuelve null.
         public Usuario comprobarContraseña(string correo, string contraseña)
         {
-            Usuario cliente = _context.Usuarios.Include(c => c.idRol).FirstOrDefault(c => c.Correo == correo);
+            Usuario cliente = _context.Usuario.Include(c => c.idRol).FirstOrDefault(c => c.Correo == correo);
             if (cliente != null && contraseña!=null)
             {
                 contraseña=CifrarContraseña(contraseña);
@@ -77,7 +76,7 @@ namespace CitaFacil.Models
         {
             bool isUserLogin = true;
 
-            Usuario usuario = _context.Usuarios.FirstOrDefault(u => u.Correo == correo);
+            Usuario usuario = _context.Usuario.FirstOrDefault(u => u.Correo == correo);
 
             if (usuario == null)
             {

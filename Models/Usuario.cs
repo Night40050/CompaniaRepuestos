@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 
-namespace PruebaTecnicaCompaniaRepuestos.Models
+namespace CompaniaRepuestos.Models
 {
     public class Usuario //modelo para la tabla usuario DB
     {

@@ -1,7 +1,7 @@
 ﻿using CompaniaRepuestos.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace CitaFacil.Models
+namespace CompaniaRepuestos.Models
 {
     public class SeedData
     {
@@ -23,16 +23,16 @@ namespace CitaFacil.Models
                     },
                     new Rol
                     {
-                        nombreRol = "Usuarios"
+                        nombreRol = "Usuario"
                     }
                  );
                 context.SaveChanges();
-                context.Usuarios.Add(new Usuario
+                context.Usuario.Add(new Usuario
                 {
                     nombreUsuario = "Daniel Caicedo",
                     contraseña = servicios.HashPassword("12345678"),                           
-                    Rol = 1,
-                    Correo = "sergiomoscoso1022@hotmail.com"
+                    idRol = 1,
+                    Correo = "danieleduaedo13@gmail.com"
                 });
                 context.SaveChanges();
             }

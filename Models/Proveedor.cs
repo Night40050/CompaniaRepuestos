@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PruebaTecnicaCompaniaRepuestos.Models
+namespace CompaniaRepuestos.Models
 {
     public class Proveedor //modelo para la tabla proveedor DB
     {

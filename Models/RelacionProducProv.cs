@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PruebaTecnicaCompaniaRepuestos.Models
+namespace CompaniaRepuestos.Models
 {
     public class RelacionProducProv //modelo para la tabla que relaciona las tablas proveedor y producto DB
     {

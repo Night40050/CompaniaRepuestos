@@ -1,11 +1,11 @@
-﻿using CitaFacil.Models;
+﻿using CompaniaRepuestos.Models;
 using CompaniaRepuestos.Data;
-using CompaniaRepuestos.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Security.Claims;
+
 
 namespace CompaniaRepuestos.Controllers
 {
@@ -19,7 +19,7 @@ namespace CompaniaRepuestos.Controllers
         {
             _logger = logger;
             this._context = context;
-            this._servicioCF = new ServiciosCitaFacil(_context);
+            this._servicioCR = new ServiciosCompaniaRepuestos(_context);
         }
 
         public IActionResult Index()
@@ -27,9 +27,9 @@ namespace CompaniaRepuestos.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 string rol = User.FindFirst(ClaimTypes.Role).Value.ToString();
-                if (rol.Equals("Usuarios"))
+                if (rol.Equals("Usuario"))
                 {
-                    return RedirectToAction("Index", "Usuarios");
+                    return RedirectToAction("Index", "Usuario");
                 }
                 if (rol.Equals("Administrador"))
                 {
@@ -39,10 +39,7 @@ namespace CompaniaRepuestos.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+       
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -58,15 +55,15 @@ namespace CompaniaRepuestos.Controllers
 
             try
             {
-                if (_servicioCF.IsUserLogin(correo, contrasena))//Es usuario normal
+                if (_servicioCR.IsUserLogin(correo, contrasena))//Es usuario normal
                 {
-                    Usuario us = _context.Usuarios.Include(u => u.Rol).FirstOrDefault(u => u.Correo == correo);
-                    userClaims = CreateClaims(us.Id_Usuario.ToString(), us.Id_EstadoUsuario.ToString(), us.Rol.Nombre_Rol);
+                    Usuario us = _context.Usuario.Include(u => u.Rol).FirstOrDefault(u => u.Correo == correo);
+                    userClaims = CreateClaims(us.idUsuario.ToString(), us.Rol.nombreRol);
 
                 }
                 
 
-                var identity = new ClaimsIdentity(userClaims, "CitaFacilAutenticacion");
+                var identity = new ClaimsIdentity(userClaims, "CompaniaRepuestosAutenticacion");
                 var principal = new ClaimsPrincipal(identity);
                 bool recordarU = false;
                 if (!string.IsNullOrEmpty(recordar))
@@ -86,6 +83,16 @@ namespace CompaniaRepuestos.Controllers
                 return RedirectToAction("Index", new { error = error });
             }
 
+        }
+        private List<Claim> CreateClaims(string id, string role)
+        {
+            var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name,id),
+                    new Claim(ClaimTypes.Role, role),
+                };
+
+            return claims;
         }
 
     }
