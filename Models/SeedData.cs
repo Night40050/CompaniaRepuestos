@@ -35,6 +35,14 @@ namespace CompaniaRepuestos.Models
                     Correo = "danieleduaedo13@gmail.com"
                 });
                 context.SaveChanges();
+                context.Usuario.Add(new Usuario
+                {
+                    nombreUsuario = "usuario",
+                    contraseña = servicios.HashPassword("12345678"),
+                    idRol = 2,
+                    Correo = "usuario@gmail.com"
+                });
+                context.SaveChanges();
             }
         }
     }

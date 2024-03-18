@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//conectar base de datos
 builder.Services.AddDbContext<CompaniaRepuestosContext>(options =>
    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnection")));
 
+//autentificacion
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = "CompaniaRepuestosCookie"; // Establece el esquema predeterminado
@@ -17,27 +19,12 @@ builder.Services.AddAuthentication(options =>
 })
         .AddCookie("CompaniaRepuestosCookie", options =>
         {
-            options.LoginPath = "/Home/Index"; // Página de inicio de sesión
-            options.AccessDeniedPath = "/Home/Index"; // Página de acceso denegado
+            options.LoginPath = "/Home/Login"; // Página de inicio de sesión
+            options.AccessDeniedPath = "/Home/Login"; // Página de acceso denegado
             options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
         });
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("RequiereLogin", policy => policy.RequireAuthenticatedUser());
-});
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
-//Configuración de la Autenticación y Autorización
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.Cookie.Name = "CompaniaRepuestosCookie";
-        options.LoginPath = "/InicioSesion";
-        options.AccessDeniedPath = "/AccesoDenegado";
-    });
 
 builder.Services.AddAuthorization(options =>
 {
@@ -45,6 +32,8 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Usuario", policy => policy.RequireRole("Usuario"));
 });
 
+// Add services to the container.
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 //iniciar base de datos con los roles
@@ -75,10 +64,17 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
+    pattern: "{controller=Home}/{action=Login}/{id?}");
+/*
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+});*/
 app.Run();

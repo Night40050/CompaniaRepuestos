@@ -18,7 +18,7 @@ namespace CompaniaRepuestos.Models
         [Required, MinLength(8), Column(TypeName = "nvarchar(MAX)")]
         public string contraseña { get; set; }
 
-        [ForeignKey("Roles")]
+        [ForeignKey("Rol")]
         public int idRol { get; set; }
         public virtual Rol? Rol { get; set; }
     }

@@ -155,7 +155,7 @@ namespace CompaniaRepuestos.Migrations
 
                     b.HasKey("idRol");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Rol");
                 });
 
             modelBuilder.Entity("CompaniaRepuestos.Models.Usuario", b =>

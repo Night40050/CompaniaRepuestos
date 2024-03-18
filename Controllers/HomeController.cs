@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Security.Claims;
-
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.Options;
 
 namespace CompaniaRepuestos.Controllers
 {
@@ -22,24 +24,16 @@ namespace CompaniaRepuestos.Controllers
             this._servicioCR = new ServiciosCompaniaRepuestos(_context);
         }
 
+        [Authorize]
         public IActionResult Index()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                string rol = User.FindFirst(ClaimTypes.Role).Value.ToString();
-                if (rol.Equals("Usuario"))
-                {
-                    return RedirectToAction("Index", "Usuario");
-                }
-                if (rol.Equals("Administrador"))
-                {
-                    return RedirectToAction("Index", "Administrador");
-                }
-            }
             return View();
         }
 
-       
+        public IActionResult Login()
+        {
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -48,21 +42,23 @@ namespace CompaniaRepuestos.Controllers
         }
 
         //controlador para el inicio de sesion para devolver la vista correspondiente
+        [HttpPost]
         public IActionResult Iniciar_Sesion(string correo, string contrasena, string recordar)
         {
             string error = null;
             List<Claim> userClaims = null;
-
             try
             {
-                if (_servicioCR.IsUserLogin(correo, contrasena))//Es usuario normal
+                if (_servicioCR.IsUserLogin(correo, contrasena))
                 {
                     Usuario us = _context.Usuario.Include(u => u.Rol).FirstOrDefault(u => u.Correo == correo);
-                    userClaims = CreateClaims(us.idUsuario.ToString(), us.Rol.nombreRol);
-
+                    userClaims = CreateClaims(us.nombreUsuario, us.idUsuario.ToString(), us.Rol.nombreRol);
                 }
-                
-
+                else
+                {
+                    error = "Correo o contraseña incorrectos";
+                    return RedirectToAction("Login", new { error = error });
+                }
                 var identity = new ClaimsIdentity(userClaims, "CompaniaRepuestosAutenticacion");
                 var principal = new ClaimsPrincipal(identity);
                 bool recordarU = false;
@@ -80,15 +76,16 @@ namespace CompaniaRepuestos.Controllers
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index", new { error = error });
+                error = "Error en el inicio de sesión";
+                return RedirectToAction("Login", new { error = error });
             }
-
         }
-        private List<Claim> CreateClaims(string id, string role)
+        private List<Claim> CreateClaims(string nombre,string id, string role)
         {
             var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name,id),
+                    new Claim(ClaimTypes.Name,nombre),
+                    new Claim(ClaimTypes.Actor,id),
                     new Claim(ClaimTypes.Role, role),
                 };
 

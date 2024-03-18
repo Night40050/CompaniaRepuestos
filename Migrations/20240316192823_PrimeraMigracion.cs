@@ -44,7 +44,7 @@ namespace CompaniaRepuestos.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Roles",
+                name: "Rol",
                 columns: table => new
                 {
                     idRol = table.Column<int>(type: "int", nullable: false)
@@ -101,7 +101,7 @@ namespace CompaniaRepuestos.Migrations
                     table.ForeignKey(
                         name: "FK_Usuarios_Roles_RolidRol",
                         column: x => x.RolidRol,
-                        principalTable: "Roles",
+                        principalTable: "Rol",
                         principalColumn: "idRol");
                 });
 
@@ -208,7 +208,7 @@ namespace CompaniaRepuestos.Migrations
                 name: "Usuario");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Rol");
         }
     }
 }

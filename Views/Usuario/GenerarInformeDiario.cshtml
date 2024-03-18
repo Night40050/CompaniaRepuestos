@@ -1,0 +1,28 @@
+﻿@model CompaniaRepuestos.ViewModels.InformeDiarioViewModel
+
+@{
+    ViewData["Title"] = "Informe Diario";
+}
+
+<h1>Informe Diario (@Model.Fecha.ToShortDateString())</h1>
+
+<p>Monto Total de Ventas: @Model.MontoTotalVentas</p>
+
+<h2>Repuestos Vendidos:</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Repuesto</th>
+            <th>Cantidad Vendida</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var repuesto in Model.RepuestosVendidos)
+        {
+            <tr>
+                <td>@repuesto.Key</td>
+                <td>@repuesto.Value</td>
+            </tr>
+        }
+    </tbody>
+</table>

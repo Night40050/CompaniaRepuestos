@@ -16,5 +16,12 @@ namespace CompaniaRepuestos.Data
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Venta> Venta { get; set; }
 
+        //Dependiendo de la version de Entity Framework puede en ocasiones pluralizar las tablas cuando se mapean los modelos, de ser asi use esta seccion cambiando el nombre de la tabla pluralizada "es"
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Usuario>().ToTable("Usuario");
+            modelBuilder.Entity<Rol>().ToTable("Rol");
+        }
+        
     }
 }

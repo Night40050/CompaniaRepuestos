@@ -1,0 +1,55 @@
+﻿@model CompaniaRepuestos.ViewModels.CrearProductoViewModel
+
+<h1>Crear Producto</h1>
+
+<h4>Producto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CrearProducto">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Producto.cantidadProducto" class="control-label"></label>
+                <input asp-for="Producto.cantidadProducto" class="form-control" />
+                <span asp-validation-for="Producto.cantidadProducto" class="text-danger"></span>
+            </div>
+            <!-- Otras propiedades del producto -->
+            <div class="form-group">
+                <label asp-for="Producto.descripcion" class="control-label"></label>
+                <input asp-for="Producto.descripcion" class="form-control" />
+                <span asp-validation-for="Producto.descripcion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Producto.modelo" class="control-label"></label>
+                <input asp-for="Producto.modelo" class="form-control" />
+                <span asp-validation-for="Producto.modelo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Producto.valorVenta" class="control-label"></label>
+                <input asp-for="Producto.valorVenta" class="form-control" />
+                <span asp-validation-for="Producto.valorVenta" class="text-danger"></span>
+            </div>
+            <!-- Campo para el ID del proveedor -->
+            <div class="form-group">
+                <label asp-for="idProveedor" class="control-label"></label>
+                <input asp-for="idProveedor" class="form-control" />
+                <span asp-validation-for="idProveedor" class="text-danger"></span>
+            </div>
+            <!-- Campo para el precio del producto -->
+            <div class="form-group">
+                <label asp-for="precioUnitario" class="control-label"></label>
+                <input asp-for="precioUnitario" class="form-control" />
+                <span asp-validation-for="precioUnitario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="CrearProducto">Back to List</a>
+</div>
+
+

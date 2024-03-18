@@ -1,0 +1,68 @@
+﻿@model IEnumerable<CompaniaRepuestos.Models.RegistroAuditoria>
+
+@{
+    ViewData["Title"] = "Auditoria";
+}
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Tables</title>
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+</head>
+<h1>Auditoria</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.fechaAccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.accionRealizada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Usuario)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.fechaAccion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.accionRealizada)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario.Correo)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.idAuditoria">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.idAuditoria">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.idAuditoria">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
